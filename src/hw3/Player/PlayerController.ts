@@ -25,6 +25,11 @@ export const PlayerAnimations = {
     IDLE: "IDLE",
     WALK: "WALK",
     JUMP: "JUMP",
+    ATTACKING_LEFT:"ATTACKING_LEFT",
+    ATTACKING_RIGHT:"ATTACKING_RIGHT",
+    TAKING_DAMAGE:"TAKING_DAMAGE",
+    DYING:"DYING",
+    DEAD:"DEAD"
 } as const
 
 /**
@@ -111,6 +116,14 @@ export default class PlayerController extends StateMachineAI {
         // If the player hits the attack button and the weapon system isn't running, restart the system and fire!
         if (Input.isPressed(HW3Controls.ATTACK) && !this.weapon.isSystemRunning()) {
             // Start the particle system at the player's current position
+            if(this.faceDir.x >= 0)
+            {
+                this.owner.animation.play(PlayerAnimations.ATTACKING_RIGHT);
+            }
+            else
+            {
+                this.owner.animation.play(PlayerAnimations.ATTACKING_LEFT);
+            }
             this.weapon.startSystem(500, 0, this.owner.position);
         }
 
